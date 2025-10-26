@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+    id 'me.champeau.jmh' version '0.7.1'
+    id 'io.morethan.jmhreport' version '0.9.0'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+group = 'com.gsswain.benchmark'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // JMH dependencies
+    implementation 'org.openjdk.jmh:jmh-core:1.37'
+    implementation 'org.openjdk.jmh:jmh-generator-annprocess:1.37'
+    
+    // OpenTelemetry dependencies
+    implementation 'io.opentelemetry:opentelemetry-api:1.31.0'
+    implementation 'io.opentelemetry:opentelemetry-sdk:1.31.0'
+    
+    // Test dependencies
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jmh {
+    resultFormat = 'JSON'
+    resultsFile = layout.buildDirectory.file('reports/jmh/results.json').get().asFile
+    jmhVersion = '1.37'
+    timeUnit = 'ns'
+    threads = project.hasProperty('jmh.threads') ? project.property('jmh.threads').toInteger() : 1
+    jvmArgsPrepend = [
+        "-Djava.security.egd=''" // Force SecureRandom to not use NativePRNG
+    ]
+}    
+
+tasks.named('jmhReport') {
+    dependsOn('jmh')
+}
