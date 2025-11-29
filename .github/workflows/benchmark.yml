@@ -22,7 +22,7 @@ jobs:
         distribution: 'zulu'
 
     - name: Run JMH benchmarks
-      run: ./gradlew jmh
+      run: ./gradlew jmh -PjavaVersion=${{ matrix.java }}
 
     - name: Upload benchmark results
       uses: actions/upload-artifact@v4
