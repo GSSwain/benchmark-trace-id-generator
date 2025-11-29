@@ -9,15 +9,37 @@ on:
 jobs:
   benchmark:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        java: [ '17', '21', '25' ]
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up JDK 25
+    - name: Set up JDK ${{ matrix.java }}
       uses: actions/setup-java@v4
       with:
-        java-version: '25'
+        java-version: ${{ matrix.java }}
         distribution: 'zulu'
 
     - name: Run JMH benchmarks
       run: ./gradlew jmh
+
+    - name: Upload benchmark results
+      uses: actions/upload-artifact@v4
+      with:
+        name: benchmark-results-${{ matrix.java }}
+        path: build/reports/jmh/results.json
+
+  aggregate-results:
+    needs: benchmark
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Download benchmark results
+      uses: actions/download-artifact@v4
+      with:
+        path: benchmark-results
+
+    - name: Display structure of downloaded files
+      run: ls -R benchmark-results
