@@ -43,3 +43,12 @@ jobs:
 
     - name: Display structure of downloaded files
       run: ls -R benchmark-results
+
+    - name: Create zip archive
+      run: zip -r aggregated-benchmark-results.zip benchmark-results
+
+    - name: Upload aggregated results
+      uses: actions/upload-artifact@v4
+      with:
+        name: aggregated-benchmark-results
+        path: aggregated-benchmark-results.zip
