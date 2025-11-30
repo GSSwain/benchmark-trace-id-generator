@@ -6,7 +6,8 @@ plugins {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        def javaVersion = project.hasProperty('javaVersion') ? project.property('javaVersion').toInteger() : 17
+        languageVersion = JavaLanguageVersion.of(javaVersion)
     }
 }
 
