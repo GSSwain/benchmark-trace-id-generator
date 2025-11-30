@@ -38,7 +38,16 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GIST_TOKEN }}
       run: |
-        gh gist edit ${{ secrets.GIST_ID }} build/reports/jmh/java-${{ matrix.java }}-threads-${{ matrix.threads }}.json --filename java-${{ matrix.java }}-threads-${{ matrix.threads }}.json
+        FILE_PATH="build/reports/jmh/java-${{ matrix.java }}-threads-${{ matrix.threads }}.json"
+        GIST_FILENAME="java-${{ matrix.java }}-threads-${{ matrix.threads }}.json"
+
+        if gh gist view ${{ secrets.GIST_ID }} --files | grep -q "^${GIST_FILENAME}$"; then
+          echo "File exists in Gist, updating..."
+          gh gist edit ${{ secrets.GIST_ID }} "${FILE_PATH}" --filename "${GIST_FILENAME}"
+        else
+          echo "File does not exist in Gist, adding..."
+          gh gist edit ${{ secrets.GIST_ID }} --add "${FILE_PATH}"
+        fi
 
   aggregate-results:
     needs: benchmark
