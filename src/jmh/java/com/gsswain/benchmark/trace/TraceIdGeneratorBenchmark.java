@@ -18,7 +18,7 @@ import org.openjdk.jmh.infra.Blackhole;
 
 import io.opentelemetry.sdk.trace.IdGenerator;
 
-@BenchmarkMode({Mode.AverageTime, Mode.Throughput})
+@BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
 @State(Scope.Thread)
 @Warmup(iterations = 5, time = 1)
@@ -60,7 +60,7 @@ public class TraceIdGeneratorBenchmark {
         SecureRandom secureRandom = new SecureRandom();
         System.out.println("SecureRandom Provider: " + secureRandom.getProvider().getName());
         System.out.println("SecureRandom Algorithm: " + secureRandom.getAlgorithm());
-        System.out.println("SecureRandom ThreadSafe:" + secureRandom.getProvider()
+        System.out.println("SecureRandom ThreadSafe: " + secureRandom.getProvider()
             .getProperty("SecureRandom." + secureRandom.getAlgorithm() + " ThreadSafe", "false"));
     }
 
