@@ -31,7 +31,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: benchmark-results-${{ matrix.java }}
-        path: build/reports/jmh/results-${{ matrix.java }}.json
+        path: build/reports/jmh/results-java-${{ matrix.java }}.json
 
   aggregate-results:
     needs: benchmark
