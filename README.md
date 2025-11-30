@@ -23,7 +23,7 @@ The benchmark compares both string and raw byte generation performance for:
 1. Clone this repository
 2. Run the benchmark:
    ```bash
-   ./gradlew clean jmhReport -Pjmh.threads=10
+   ./gradlew clean jmhReport -PjavaVersion=25 -Pjmh.threads=10
    ```
 
 ## Benchmark Details
@@ -36,9 +36,10 @@ Configuration:
 - Warmup: 5 iterations
 - Measurement: 10 iterations
 - Forks: 2
-- Modes: Average Time and Throughput
+- Modes: Average Time
 - Time Unit: Nanoseconds
 - Threads: Default 1 threads which can be overriden by `-Pjmh.threads=<numberOfThreads>`
+- JavaVersion: Default Java 17 which can be overriden by `-PjavaVersion=<JavaVersionNumber>`
 
 ## Results
 
@@ -50,7 +51,6 @@ Benchmark results are generated in two formats:
 
 The benchmark measures:
 - Average Time (ns): Lower is better
-- Throughput (ops/ns): Higher is better
 
 Key metrics to look for:
 - Score: The primary measurement result
@@ -74,8 +74,6 @@ Java Settings:
 
 |Benchmark | Mode | Cnt | Score | Error | Units |
 |----------|------|-----|-------|-------|-------|
-|TraceIdGeneratorBenchmark.openTelemetryTraceId | thrpt |  20  |   0.069 | ±  0.001 | ops/ns |
-|TraceIdGeneratorBenchmark.uuidBasedTraceId     | thrpt |  20  |   0.004 | ±  0.001 | ops/ns |
 |TraceIdGeneratorBenchmark.openTelemetryTraceId |  avgt |  20  |  14.321 | ±  0.130 |  ns/op |
 |TraceIdGeneratorBenchmark.uuidBasedTraceId     |  avgt |  20  | 247.141 | ±  8.476 |  ns/op |
 
@@ -83,8 +81,6 @@ Java Settings:
 
 |Benchmark | Mode | Cnt | Score | Error | Units |
 |----------|------|-----|-------|-------|-------|
-|TraceIdGeneratorBenchmark.openTelemetryTraceId | thrpt |  20  |   0.069 | ±  0.001 | ops/ns |
-|TraceIdGeneratorBenchmark.uuidBasedTraceId     | thrpt |  20  |   0.004 | ±  0.001 | ops/ns |
 |TraceIdGeneratorBenchmark.openTelemetryTraceId |  avgt |  20  |  14.528 | ±  0.474 |  ns/op |
 |TraceIdGeneratorBenchmark.uuidBasedTraceId     |  avgt |  20  | 245.351 | ± 14.737 |  ns/op |
 
@@ -92,8 +88,6 @@ Java Settings:
 
 |Benchmark | Mode | Cnt | Score | Error | Units |
 |----------|------|-----|-------|-------|-------|
-|TraceIdGeneratorBenchmark.openTelemetryTraceId | thrpt |  20  |   0.070 | ±  0.001 | ops/ns |
-|TraceIdGeneratorBenchmark.uuidBasedTraceId     | thrpt |  20  |   0.001 | ±  0.001 | ops/ns |
 |TraceIdGeneratorBenchmark.openTelemetryTraceId |  avgt |  20  |  14.414 | ±  0.241 |  ns/op |
 |TraceIdGeneratorBenchmark.uuidBasedTraceId     |  avgt |  20  | 862.166 | ± 13.122 |  ns/op |
 
@@ -103,8 +97,6 @@ Java Settings:
 
 |Benchmark | Mode | Cnt | Score | Error | Units |
 |----------|------|-----|-------|-------|-------|
-|TraceIdGeneratorBenchmark.openTelemetryTraceId | thrpt |  20 |    0.420 | ±  0.007 | ops/ns |
-|TraceIdGeneratorBenchmark.uuidBasedTraceId     | thrpt |  20 |    0.003 | ±  0.001 | ops/ns |
 |TraceIdGeneratorBenchmark.openTelemetryTraceId |  avgt |  20 |   24.967 | ±  1.525 |  ns/op |
 |TraceIdGeneratorBenchmark.uuidBasedTraceId     |  avgt |  20 | 3761.317 | ± 65.991 |  ns/op |
 
@@ -112,8 +104,6 @@ Java Settings:
 
 |Benchmark | Mode | Cnt | Score | Error | Units |
 |----------|------|-----|-------|-------|-------|
-|TraceIdGeneratorBenchmark.openTelemetryTraceId | thrpt |  20 |    0.417 | ±   0.021 | ops/ns |
-|TraceIdGeneratorBenchmark.uuidBasedTraceId     | thrpt |  20 |    0.003 | ±   0.001 | ops/ns |
 |TraceIdGeneratorBenchmark.openTelemetryTraceId |  avgt |  20 |   23.517 | ±   1.003 |  ns/op |
 |TraceIdGeneratorBenchmark.uuidBasedTraceId     |  avgt |  20 | 4032.508 | ± 176.588 |  ns/op |
 
@@ -123,8 +113,6 @@ Java Settings:
 
 |Benchmark | Mode | Cnt | Score | Error | Units |
 |----------|------|-----|-------|-------|-------|
-|TraceIdGeneratorBenchmark.openTelemetryTraceId | thrpt |  20  |     0.435 | ±   0.009 | ops/ns |
-|TraceIdGeneratorBenchmark.uuidBasedTraceId     | thrpt |  20  |     0.001 | ±   0.001 | ops/ns |
 |TraceIdGeneratorBenchmark.openTelemetryTraceId |  avgt |  20  |    23.236 | ±   0.393 |  ns/op |
 |TraceIdGeneratorBenchmark.uuidBasedTraceId     |  avgt |  20  | 12327.410 | ± 886.314 |  ns/op |
 
