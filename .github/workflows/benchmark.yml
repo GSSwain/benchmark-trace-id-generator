@@ -32,14 +32,19 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: benchmark-results-${{ matrix.java }}-threads-${{ matrix.threads }}
-        path: build/reports/jmh/results-java-${{ matrix.java }}-threads-${{ matrix.threads }}.json
+        path: build/reports/jmh/java-${{ matrix.java }}-threads-${{ matrix.threads }}.json
+
+    - name: Update Gist with benchmark results
+      env:
+        GH_TOKEN: ${{ secrets.GIST_TOKEN }}
+      run: |
+        gh gist edit ${{ secrets.GIST_ID }} build/reports/jmh/java-${{ matrix.java }}-threads-${{ matrix.threads }}.json --filename java-${{ matrix.java }}-threads-${{ matrix.threads }}.json
 
   aggregate-results:
     needs: benchmark
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-
     - name: Download benchmark results
       uses: actions/download-artifact@v4
       with:
