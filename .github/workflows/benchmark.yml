@@ -12,6 +12,7 @@ jobs:
     strategy:
       matrix:
         java: [ '17', '21', '25' ]
+        threads: ['1', '10']
     steps:
     - uses: actions/checkout@v4
 
@@ -22,16 +23,16 @@ jobs:
         distribution: 'zulu'
 
     - name: Run JMH benchmarks
-      run: ./gradlew jmh -PjavaVersion=${{ matrix.java }}
+      run: ./gradlew jmh -PjavaVersion=${{ matrix.java }} -Pjmh.threads=${{ matrix.threads }}
 
     - name: Rename benchmark results
-      run: mv build/reports/jmh/results.json build/reports/jmh/results-java-${{ matrix.java }}.json
+      run: mv build/reports/jmh/results.json build/reports/jmh/results-java-${{ matrix.java }}-threads-${{ matrix.threads }}.json
 
     - name: Upload benchmark results
       uses: actions/upload-artifact@v4
       with:
-        name: benchmark-results-${{ matrix.java }}
-        path: build/reports/jmh/results-java-${{ matrix.java }}.json
+        name: benchmark-results-${{ matrix.java }}-threads-${{ matrix.threads }}
+        path: build/reports/jmh/results-java-${{ matrix.java }}-threads-${{ matrix.threads }}.json
 
   aggregate-results:
     needs: benchmark
@@ -47,8 +48,16 @@ jobs:
     - name: Display structure of downloaded files
       run: ls -R benchmark-results
 
+    - name: Move results to a single folder
+      run: |
+        mkdir aggregated-results
+        find benchmark-results -type f -name "*.json" -exec mv -t aggregated-results/ {} +
+
+    - name: Display structure of aggregated results
+      run: ls -R aggregated-results
+
     - name: Create zip archive
-      run: zip -r aggregated-benchmark-results.zip benchmark-results
+      run: zip -r aggregated-benchmark-results.zip aggregated-results
 
     - name: Upload aggregated results
       uses: actions/upload-artifact@v4
