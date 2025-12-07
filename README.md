@@ -47,6 +47,16 @@ Benchmark results are generated in two formats:
 1. JSON format: `build/reports/jmh/results.json`
 2. HTML report: `build/reports/jmh/index.html`
 
+### Live JMH Report
+
+The HTML report can also be viewed on `https://jmh.morethan.io`. This is a free online tool for visualizing JMH benchmark results. It reads data directly from a GitHub Gist, allowing for easy sharing and interactive analysis of benchmark data.
+
+The GitHub Actions workflow for this project is configured to automatically update a Gist with the latest benchmark results upon every push to the `main` branch. The workflow runs the benchmarks across various configurations (different JDK versions and thread counts) and uploads each result to the Gist.
+
+You can view the live, interactive report of the latest benchmark run here:
+
+[View Live JMH Report](https://jmh.morethan.io/?gist=ea5b5c1a7b77cc9077bfa50ab2050e2d)
+
 ### Reading the Results
 
 The benchmark measures:
